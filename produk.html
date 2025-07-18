@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Produk - LindShoe</title>
+  <!-- Google Fonts Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* Reset and base styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button {
+      font-family: inherit;
+    }
+
+    /* Header - same as index.html */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255 255 255 / 0.9);
+      backdrop-filter: saturate(180%) blur(12px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .logo .material-icons {
+      font-size: 32px;
+      color: #06b6d4;
+      animation: bounceIcon 3s infinite ease-in-out;
+    }
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    nav {
+      display: flex;
+      gap: 36px;
+    }
+    nav a {
+      position: relative;
+      font-size: 1rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a .material-icons {
+      font-size: 20px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    nav a:hover .material-icons,
+    nav a:focus .material-icons {
+      color: #06b6d4;
+      transform: scale(1.3) translateY(-4px);
+    }
+    nav a:hover,
+    nav a:focus {
+      color: #06b6d4;
+      outline: none;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #06b6d4;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+    nav a:hover::after,
+    nav a:focus::after {
+      transform: scaleX(1);
+    }
+
+    /* Layout main with sidebar category on left */
+    main {
+      display: flex;
+      max-width: 1200px;
+      margin: 24px auto 64px;
+      padding: 0 20px;
+      gap: 24px;
+      min-height: 600px;
+    }
+
+    /* Sidebar category menu vertical on left */
+    .category-menu {
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 88px;
+      height: fit-content;
+      user-select: none;
+    }
+    .category-menu button {
+      background-color: #06b6d4;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgb(6 182 212 / 0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: left;
+    }
+    .category-menu button:hover,
+    .category-menu button:focus {
+      background-color: #04a6b4;
+      box-shadow: 0 6px 24px rgb(6 182 212 / 0.6);
+      transform: translateX(4px);
+      outline: none;
+    }
+    .category-menu button.active {
+      background-color: #0284c7;
+      box-shadow: 0 6px 20px rgb(2 132 199 / 0.8);
+      cursor: default;
+      transform: translateX(2px);
+    }
+    .category-menu button .material-icons {
+      font-size: 20px;
+    }
+
+    /* Main content area for products */
+    .content-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Search bar with icon inside main content */
+    .search-container {
+      max-width: 480px;
+      margin: 0 auto 12px;
+      position: relative;
+    }
+    .search-container input {
+      width: 100%;
+      padding: 12px 44px 12px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      font-size: 1rem;
+      font-weight: 400;
+      outline-offset: 4px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .search-container input:focus {
+      border-color: #06b6d4;
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+    }
+    .search-container .material-icons.search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: #94a3b8;
+      pointer-events: none;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    .search-container input:focus + .search-icon {
+      color: #06b6d4;
+    }
+
+    /* Product cards styling */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+      gap: 20px;
+      padding: 0 5px 5px;
+      user-select: none;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .card:hover,
+    .card:focus-within {
+      box-shadow: 0 16px 40px rgb(6 182 212 / 0.3);
+      transform: translateY(-6px);
+      outline: none;
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-bottom: 1px solid #e2e8f0;
+      user-select: none;
+      pointer-events: none;
+    }
+    .card-content {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 1.375rem;
+      color: #0f172a;
+      margin-bottom: 8px;
+      user-select: text;
+    }
+    .card-price {
+      font-weight: 600;
+      color: #06b6d4;
+      font-size: 1.125rem;
+      margin-bottom: 16px;
+      user-select: text;
+    }
+
+    /* Buttons container */
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      flex: 1 1 45%;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-align: center;
+      color: white;
+      background-color: #06b6d4;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .btn:hover,
+    .btn:focus {
+      background-color: #04a6b4;
+      box-shadow: 0 8px 18px rgba(6, 182, 212, 0.6);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      background: #0f172a;
+      color: #e0e7ff;
+      padding: 24px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: auto;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      main {
+        flex-direction: column;
+        padding: 0 25px;
+      }
+      .category-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        min-width: auto;
+        margin-bottom: 20px;
+        padding: 0 15px;
+      }
+      .category-menu button {
+        flex-shrink: 0;
+        transform: translateX(0);
+        white-space: nowrap;
+      }
+      .category-menu button:hover,
+      .category-menu button:focus {
+        transform: translateY(0);
+      }
+      .content-wrapper {
+        width: 100%;
+      }
+      .category-menu {
+        position: relative;
+        top: auto;
+        height: auto;
+      }
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+        height: 56px;
+      }
+      nav {
+        gap: 20px;
+      }
+      .btn {
+        flex: 1 1 100%;
+      }
+      }
+    .product-info .description {
+      font-size: 0.9rem;
+      color: #6b7280; /* Warna abu-abu */
+      margin: 1px 0; /* Jarak atas dan bawah */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container" role="banner">
+      <a href="index.html" class="logo" aria-label="LindShoe homepage" tabindex="0">
+        <img src="asset/LOGO.png" alt="Logo LindShoe" style="height: 80px;"/> 
+        LindShoe
+      </a>
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="index.html" tabindex="0"><span class="material-icons" aria-hidden="true">home</span>Home</a>
+        <a href="produk.html" tabindex="0"><span class="material-icons" aria-hidden="true">local_mall</span>Produk</a>
+        <a href="keranjang.html" tabindex="0"><span class="material-icons" aria-hidden="true">shopping_cart</span>Keranjang</a>
+        <a href="kontak.html" tabindex="0"><span class="material-icons" aria-hidden="true">contact_mail</span>Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="category-menu" aria-label="Filter kategori sepatu">
+      <button class="active" onclick="filterCategory('all')" aria-pressed="true"><span class="material-icons" aria-hidden="true">collections</span> Semua</button>
+      <button onclick="filterCategory('olahraga')" aria-pressed="false"><span class="material-icons" aria-hidden="true">directions_run</span> Sepatu Olahraga</button>
+      <button onclick="filterCategory('jalan-jalan')" aria-pressed="false"><span class="material-icons" aria-hidden="true">hiking</span> Sepatu Jalan</button>
+      <button onclick="filterCategory('formal')" aria-pressed="false"><span class="material-icons" aria-hidden="true">event</span> Sepatu Formal</button>
+      <button onclick="filterCategory('kerja')" aria-pressed="false"><span class="material-icons" aria-hidden="true">work</span> Sepatu Kerja</button>
+    </nav>
+
+    <div class="content-wrapper">
+      <div class="search-container">
+        <input type="search" id="searchInput" placeholder="Cari produk..." aria-label="Cari produk" autocomplete="off" />
+        <span class="material-icons search-icon" aria-hidden="true">search</span>
+      </div>
+
+      <section class="products-grid" id="productList" aria-live="polite" aria-label="Daftar produk"></section>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 LindShoe. Semua hak cipta dilindungi.
+  </footer>
+
+  <script>
+    // 50 sample products with categories, images and prices
+    const products = [
+      // Sepatu Olahraga (13 items)
+      {id:1,name:"Sneakers Alpha",price:250000,category:"olahraga",img:"asset/olahraga/sneakers alpha.jpeg", description: "mengusung desain sporty modern dengan bahan ringan dan breathable. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini nyaman untuk aktivitas harian, olahraga ringan, maupun tampil kasual dengan gaya yang trendi."},
+      {id:2,name:"Runner Pro",price:220000,category:"olahraga",img:"asset/olahraga/Runner Pro.jpeg", description: "dirancang khusus untuk mendukung aktivitas lari dan olahraga dengan bahan ringan dan breathable. Insole empuk dan outsole fleksibel memberikan kenyamanan serta kelincahan maksimal, menjadikan setiap langkah lebih stabil dan bertenaga."},
+      {id:3,name:"Sporty Max",price:220000,category:"olahraga",img:"asset/olahraga/Sporty Max.jpeg", description: "hadir dengan desain sporty yang dinamis dan stylish. Dibuat dari bahan breathable dan ringan, serta dilengkapi insole empuk untuk kenyamanan ekstra, sepatu ini cocok untuk olahraga maupun aktivitas santai sehari-hari."},
+      {id:4,name:"Track Blaze",price:290000,category:"olahraga",img:"asset/olahraga/Track Blaze.jpeg", description: "dirancang untuk performa maksimal dengan desain sporty dan agresif. Terbuat dari bahan ringan dan breathable, dilengkapi insole empuk serta outsole anti slip yang kokoh, sepatu ini ideal untuk olahraga, lari, maupun aktivitas outdoor."},
+      {id:5,name:"Flex Air",price:300000,category:"olahraga",img:"asset/olahraga/Flex Air.jpeg", description: "hadir dengan desain ringan dan fleksibel, menggunakan bahan breathable untuk menjaga kaki tetap sejuk. Dilengkapi insole empuk dan outsole lentur, sepatu ini nyaman dipakai seharian, cocok untuk aktivitas santai maupun olahraga ringan."},
+      {id:6,name:"Sprint LX",price:230000,category:"olahraga",img:"asset/olahraga/Sprint LX.jpg", description: "terbuat dari premium synthetic leather yang awet, dilengkapi insole empuk dan outsole anti slip. Ringan, nyaman, dan stylish, cocok untuk aktivitas sehari-hari."},
+      {id:7,name:"Power Step",price:300000,category:"olahraga",img:"asset/olahraga/Power Step.jpg", description: "hadir dengan desain sporty dan bahan berkualitas yang kokoh. Dilengkapi outsole anti slip dan insole empuk, sepatu ini nyaman dipakai seharian dan cocok untuk aktivitas aktif maupun santai."},
+      {id:8,name:"Speed Racer",price:240000,category:"olahraga",img:"asset/olahraga/Speed Racer.jpeg", description: "dibuat untuk Anda yang aktif, dengan desain aerodinamis dan bahan ringan. Insole empuk dan outsole fleksibel memberi kenyamanan dan kelincahan maksimal, cocok untuk olahraga maupun gaya kasual."},
+      {id:9,name:"Endurance X",price:260000,category:"olahraga",img:"asset/olahraga/Endurance X.jpg", description: "dirancang untuk daya tahan ekstra dengan bahan kuat dan jahitan rapi. Dilengkapi insole nyaman dan outsole tebal anti slip, sepatu ini cocok untuk aktivitas berat maupun penggunaan harian yang intens."},
+      {id:10,name:"Agile Runner",price:220000,category:"olahraga",img:"asset/olahraga/Agile Runner.jpeg", description: "hadir dengan desain ringan dan breathable, mendukung pergerakan cepat dan fleksibel. Insole empuk dan outsole fleksibel membuat setiap langkah tetap nyaman, ideal untuk lari maupun aktivitas santai."},
+      {id:11,name:"Turbo Boost",price:270000,category:"olahraga",img:"asset/olahraga/Turbo Boost.jpeg", description: "menggabungkan desain sporty dengan bantalan tebal yang empuk, memberikan dorongan ekstra saat melangkah. Dibuat dari bahan ringan dan breathable, cocok untuk olahraga maupun aktivitas harian dengan tetap nyaman dan stylish."},
+      {id:12,name:"Air Glide",price:280000,category:"olahraga",img:"asset/olahraga/Air Glide.jpg", description: "menawarkan kenyamanan maksimal dengan desain ringan dan sirkulasi udara yang baik. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini cocok untuk aktivitas santai maupun harian, membuat langkah terasa ringan dan bebas gerah."},
+      {id:13,name:"Dynamic Flex",price:210000,category:"olahraga",img:"asset/olahraga/Dynamic Flex.jpg", description: "dirancang dengan bahan lentur dan ringan yang mengikuti gerak kaki. Insole empuk dan outsole anti slip membuatnya nyaman dipakai seharian, cocok untuk aktivitas aktif maupun kasual dengan tetap stylish."},
+
+      // Sepatu Jalan-Jalan (12 items)
+      {id:14,name:"City Walker",price:250000,category:"jalan-jalan",img:"asset/jalan/City Walker.jpg", description: "hadir dengan desain kasual modern dan bahan berkualitas yang nyaman dipakai. Insole empuk dan outsole kuat membuatnya ideal untuk jalan jauh atau aktivitas harian di perkotaan, tetap stylish dan praktis sepanjang hari."},
+      {id:15,name:"Trail Master",price:280000,category:"jalan-jalan",img:"asset/jalan/Trail Master.jpg", description: "dibuat khusus untuk medan berat dengan bahan tahan lama dan outsole bergerigi anti slip. Dilengkapi insole empuk untuk kenyamanan ekstra, sepatu ini siap menemani petualangan outdoor maupun trekking dengan aman dan stabil."},
+      {id:16,name:"Casual Step",price:290000,category:"jalan-jalan",img:"asset/jalan/Casual Step.jpeg", description: "desain simpel dan elegan, cocok untuk dipakai sehari-hari. Terbuat dari bahan ringan dan breathable dengan insole empuk, sepatu ini nyaman digunakan dalam berbagai aktivitas santai maupun kasual."},
+      {id:17,name:"Urban Drift",price:230000,category:"jalan-jalan",img:"asset/jalan/Urban Drift.jpeg", description: "hadir dengan desain modern dan sporty yang cocok untuk gaya perkotaan. Menggunakan bahan ringan dan breathable serta insole empuk, sepatu ini nyaman dipakai seharian sambil tetap tampil trendi dan stylish."},
+      {id:18,name:"Cool Breeze",price:240000,category:"jalan-jalan",img:"asset/jalan/Cool Breeze.jpeg", description: "dirancang dengan bahan mesh yang breathable untuk sirkulasi udara maksimal, menjaga kaki tetap sejuk. Insole empuk dan outsole ringan membuatnya nyaman dipakai, ideal untuk aktivitas santai atau harian dengan gaya kasual yang segar."},
+      {id:19,name:"Easy Glide",price:270000,category:"jalan-jalan",img:"asset/jalan/Easy Glide.jpg", description: "hadir dengan desain simpel dan ringan yang mendukung gerak bebas sepanjang hari. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini nyaman untuk aktivitas santai maupun harian, tetap praktis dan stylish."},
+      {id:20,name:"Sunny Walk",price:260000,category:"jalan-jalan",img:"asset/jalan/Sunny Walk.jpeg", description: "mengusung desain kasual yang nyaman dan ringan, cocok untuk aktivitas harian. Dengan insole empuk dan bahan breathable, sepatu ini menjaga kaki tetap sejuk dan terasa nyaman sepanjang hari."},
+      {id:21,name:"Stroll Lite",price:280000,category:"jalan-jalan",img:"asset/jalan/Stroll Lite.jpeg", description: "dirancang dengan bahan ringan dan desain minimalis, membuatnya nyaman untuk dipakai seharian. Dilengkapi insole empuk dan outsole fleksibel, cocok untuk jalan santai atau aktivitas harian dengan gaya kasual modern."},
+      {id:22,name:"Free Spirit",price:240000,category:"jalan-jalan",img:"asset/jalan/Free Spirit.png", description: "menghadirkan desain sporty kasual yang ringan dan fleksibel. Terbuat dari bahan breathable dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, cocok untuk aktivitas aktif maupun santai dengan tetap tampil stylish."},
+      {id:23,name:"Street Flair",price:300000,category:"jalan-jalan",img:"asset/jalan/Street Flair.jpg", description: "dengan desain urban stylish yang trendi dan modern. Terbuat dari bahan ringan dan breathable, dilengkapi insole empuk untuk kenyamanan maksimal, cocok untuk aktivitas harian di perkotaan atau sekadar tampil keren saat hangout."},
+      {id:24,name:"Relax Step",price:310000,category:"jalan-jalan",img:"asset/jalan/Relax Step.jpeg", description: "dirancang untuk kenyamanan maksimal dengan insole empuk dan bahan lembut yang breathable. Cocok untuk aktivitas santai maupun harian, sepatu ini ringan dan praktis dipakai, memberikan rasa nyaman di setiap langkah."},
+      {id:25,name:"Day Walker",price:330000,category:"jalan-jalan",img:"asset/jalan/Day Walker.jpeg", description: "hadir dengan desain kasual modern yang nyaman dipakai sepanjang hari. Terbuat dari bahan ringan dan breathable serta dilengkapi insole empuk, sepatu ini cocok untuk aktivitas harian, membuat langkah tetap ringan dan stylish."},
+
+      // Sepatu Formal/Acara (12 items)
+      {id:26,name:"Elegant Classic",price:350000,category:"formal",img:"asset/formal/Elegant Classic.jpg", description: "menampilkan desain timeless yang anggun dan rapi, cocok untuk acara formal maupun kasual. Dibuat dari bahan berkualitas dengan insole empuk, sepatu ini nyaman dipakai seharian sambil tetap memberikan kesan elegan dan profesional."},
+      {id:27,name:"Formal Pro",price:320000,category:"formal",img:"asset/formal/Formal Pro.jpg", description: " dirancang dengan desain elegan dan minimalis yang cocok untuk keperluan bisnis maupun acara resmi. Menggunakan bahan berkualitas dan insole empuk, sepatu ini memberikan kenyamanan sepanjang hari tanpa mengurangi kesan profesional."},
+      {id:28,name:"Business Step",price:350000,category:"formal",img:"asset/formal/Business Step.png", description: "hadir dengan desain formal modern yang stylish dan profesional. Dibuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, ideal untuk ke kantor maupun pertemuan bisnis penting."},
+      {id:29,name:"Night Gala",price:300000,category:"formal",img:"asset/formal/Night Gala.jpeg", description: "tampil dengan desain elegan dan mewah, cocok untuk acara malam atau pesta formal. Terbuat dari bahan berkualitas tinggi dan dilengkapi insole empuk, sepatu ini memberikan kenyamanan sekaligus kesan eksklusif yang memikat."},
+      {id:30,name:"Royal Black",price:270000,category:"formal",img:"asset/formal/Royal Black.jpeg", description: "mengusung desain klasik berwarna hitam elegan yang cocok untuk berbagai acara formal maupun kasual. Dibuat dari bahan premium dengan insole empuk, sepatu ini memberikan kenyamanan sekaligus tampilan yang mewah dan berkelas."},
+      {id:31,name:"Luxury Touch",price:300000,category:"formal",img:"asset/formal/Luxury Touch.jpeg", description: "hadir dengan desain elegan dan detail premium yang memancarkan kesan mewah. Terbuat dari bahan berkualitas tinggi dan dilengkapi insole empuk, sepatu ini nyaman dipakai sekaligus menambah percaya diri di setiap kesempatan spesial."},
+      {id:32,name:"Classic Charm",price:330000,category:"formal",img:"asset/formal/Classic Charm.jpeg", description: "menampilkan desain klasik yang timeless dengan sentuhan elegan. Dibuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, cocok untuk melengkapi gaya formal maupun kasual yang berkelas."},
+      {id:33,name:"Urban Elegance",price:340000,category:"formal",img:"asset/formal/Urban Elegance.jpeg", description: "memadukan desain modern dengan sentuhan klasik yang stylish. Dibuat dari bahan premium dan dilengkapi insole empuk, sepatu ini nyaman untuk aktivitas harian di perkotaan, sekaligus memberi kesan elegan dan trendi."},
+      {id:34,name:"Smooth Walk",price:310000,category:"formal",img:"asset/formal/Smooth Walk.jpg", description: "dirancang untuk kenyamanan maksimal dengan bahan lembut dan insole empuk. Outsole fleksibel mendukung langkah lebih natural, membuatnya ideal untuk aktivitas santai maupun harian dengan tetap tampil simpel dan stylish."},
+      {id:35,name:"Golden Step",price:340000,category:"formal",img:"asset/formal/Golden Step.jpeg", description: "hadir dengan desain elegan beraksen mewah yang memikat. Terbuat dari bahan premium dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, cocok untuk acara spesial maupun menambah sentuhan mewah dalam penampilan sehari-hari."},
+      {id:36,name:"Silky Finish",price:330000,category:"formal",img:"asset/formal/Silky Finish.jpeg", description: "tampil dengan desain halus dan elegan yang memberikan kesan mewah. Terbuat dari bahan berkualitas dengan tekstur lembut dan dilengkapi insole empuk, sepatu ini nyaman dipakai untuk aktivitas formal maupun santai, tetap stylish di setiap langkah."},
+      {id:37,name:"Timeless Look",price:350000,category:"formal",img:"asset/formal/Timeless Look.jpg", description: "mengusung desain klasik yang tak lekang oleh waktu, cocok untuk berbagai kesempatan. Dibuat dari bahan berkualitas dengan insole empuk, sepatu ini nyaman dipakai seharian sambil tetap memberikan kesan elegan dan berkelas."},
+
+      // Sepatu Kerja (13 items)
+      {id:38,name:"Work Pro",price:350000,category:"kerja",img:"asset/kerja/Work Pro.jpeg", description: "hadir dengan desain formal modern yang tangguh dan nyaman. Terbuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini ideal untuk dipakai bekerja seharian, memberikan kesan profesional sekaligus menjaga kenyamanan kaki."},
+      {id:39,name:"Daily Comfort",price:320000,category:"kerja",img:"asset/kerja/Daily Comfort.jpg", description: "dirancang khusus untuk pemakaian sehari-hari dengan bahan ringan dan breathable. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini memberikan kenyamanan maksimal di setiap langkah, cocok untuk aktivitas santai maupun rutin harian."},
+      {id:40,name:"Shield Guard",price:350000,category:"kerja",img:"asset/kerja/Shield Guard.png", description: "dibuat untuk perlindungan ekstra dengan desain kokoh dan outsole anti slip. Terbuat dari bahan tahan lama dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, cocok untuk aktivitas berat maupun penggunaan outdoor."},
+      {id:41,name:"Task Master",price:300000,category:"kerja",img:"asset/kerja/Task Master.jpg", description: "dirancang dengan konstruksi kuat dan bahan tahan lama untuk mendukung aktivitas berat. Dilengkapi insole empuk dan outsole anti slip, sepatu ini tetap nyaman dipakai seharian sambil memberikan perlindungan dan stabilitas maksimal."},
+      {id:42,name:"Office Step",price:340000,category:"kerja",img:"asset/kerja/Office Step.jpeg", description: "hadir dengan desain formal sederhana yang elegan, cocok untuk suasana kantor maupun pertemuan bisnis. Dibuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian sambil tetap memberikan kesan profesional."},
+      {id:43,name:"Hardwork Max",price:350000,category:"kerja",img:"asset/kerja/Hardwork Max.jpeg", description: "dirancang khusus untuk mendukung aktivitas kerja berat dengan bahan tangguh dan outsole anti slip. Dilengkapi insole empuk untuk kenyamanan sepanjang hari, sepatu ini siap menemani langkah Anda di berbagai kondisi kerja yang menantang."},
+      {id:44,name:"Pro Shield",price:320000,category:"kerja",img:"asset/kerja/Pro Shield.jpeg", description: "hadir dengan desain kokoh dan protective, dibuat dari bahan tahan lama yang melindungi kaki di berbagai aktivitas. Dilengkapi insole empuk dan outsole anti slip, sepatu ini nyaman dipakai seharian sekaligus memberikan perlindungan maksimal."},
+      {id:45,name:"Comfort Glide",price:330000,category:"kerja",img:"asset/kerja/Comfort Glide.jpg", description: "dirancang untuk kenyamanan optimal dengan bahan lembut dan breathable. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini cocok untuk aktivitas santai maupun harian, membuat setiap langkah terasa ringan dan nyaman."},
+      {id:46,name:"WorkMate",price:290000,category:"kerja",img:"asset/kerja/WorkMate.png", description: "hadir dengan desain simpel namun tangguh, cocok untuk mendukung aktivitas kerja sehari-hari. Terbuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian sambil tetap memberikan kesan profesional dan rapi."},
+      {id:47,name:"EnergyStep",price:340000,category:"kerja",img:"asset/kerja/EnergyStep.jpeg", description: "menghadirkan desain sporty dan ringan yang mendukung aktivitas aktif Anda. Dilengkapi insole empuk dan outsole fleksibel, sepatu ini memberikan kenyamanan dan kelincahan maksimal, cocok untuk olahraga maupun pemakaian harian."},
+      {id:48,name:"Durable Walk",price:370000,category:"kerja",img:"asset/kerja/Durable Walk.jpg", description: "dirancang dengan bahan kuat dan jahitan rapi untuk ketahanan ekstra. Dilengkapi insole empuk dan outsole anti slip, sepatu ini nyaman dipakai seharian dan cocok untuk aktivitas harian maupun kondisi medan yang lebih berat."},
+      {id:49,name:"Office Elite",price:320000,category:"kerja",img:"asset/kerja/Office Elite.jpeg", description: "tampil dengan desain elegan dan profesional yang cocok untuk suasana kerja maupun acara formal. Dibuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini memberikan kenyamanan sepanjang hari sambil tetap menjaga kesan stylish dan berkelas."},
+      {id:50,name:"Work Classic",price:380000,category:"kerja",img:"asset/kerja/Work Classic.jpg", description: "hadir dengan desain formal klasik yang tak lekang oleh waktu. Terbuat dari bahan berkualitas dan dilengkapi insole empuk, sepatu ini nyaman dipakai seharian, cocok untuk suasana kantor maupun pertemuan bisnis penting."},
+    ];
+
+    let currentCategory = 'all';
+
+    function formatPrice(price) {
+      return price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+    }
+
+    function renderProducts(filter='all', searchTerm='') {
+  const container = document.getElementById('productList');
+  container.innerHTML = '';
+
+  let filtered = products;
+  if(filter !== 'all') {
+    filtered = filtered.filter(p => p.category === filter);
+  }
+  if(searchTerm.trim() !== '') {
+    const term = searchTerm.trim().toLowerCase();
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(term));
+  }
+
+  if(filtered.length === 0) {
+    container.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#64748b; font-weight:600;">Produk tidak ditemukan.</p>';
+    return;
+  }
+
+  filtered.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('tabindex','0');
+    card.setAttribute('aria-label', `${product.name}, harga ${formatPrice(product.price)}`);
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="Foto ${product.name}" onerror="this.onerror=null;this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e3df7ca4-5bb6-4a83-a3b0-2c59a46c0f83.png';" />
+      <div class="card-content">
+        <h3 class="card-title">${product.name}</h3>
+        <p class="card-price">${formatPrice(product.price)}</p>
+        <p class="card-description">${product.description}</p> <!-- Menambahkan deskripsi produk -->
+        <div class="btn-group">
+          <button type="button" class="btn" aria-label="Tambah ${product.name} ke keranjang" onclick="addToCart(${product.id})">
+            <span class="material-icons">add_shopping_cart</span>Tambah Keranjang
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+    function filterCategory(category) {
+      currentCategory = category;
+      const buttons = document.querySelectorAll('.category-menu button');
+      buttons.forEach(btn => {
+        const active = (btn.textContent.toLowerCase().includes(category.replace('-', ' ')) || (category === 'all' && btn.textContent.toLowerCase().includes('semua')));
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active);
+      });
+      const searchTerm = document.getElementById('searchInput').value;
+      renderProducts(category, searchTerm);
+    }
+
+    function addToCart(productId) {
+      let cart = JSON.parse(localStorage.getItem('lindshoe_cart')) || [];
+      const product = products.find(p => p.id === productId);
+      if (!product) return alert('Produk tidak ditemukan.');
+
+      // Check if already in cart (optional)
+      if (!cart.find(p => p.id === productId)) {
+        cart.push(product);
+        localStorage.setItem('lindshoe_cart', JSON.stringify(cart));
+        alert(`${product.name} berhasil ditambahkan ke keranjang!`);
+      } else {
+        alert(`${product.name} sudah ada di keranjang.`);
+      }
+      // Redirect to keranjang.html
+      window.location.href = 'keranjang.html';
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value;
+      renderProducts(currentCategory, term);
+    });
+
+    window.onload = () => {
+      filterCategory('all');
+    };
+  </script>
+</body>
+</html>
+

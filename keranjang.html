@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keranjang - LindShoe</title>
+  <!-- Google Fonts Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button {
+      font-family: inherit;
+    }
+    /* Header - same as produk.html */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255 255 255 / 0.9);
+      backdrop-filter: saturate(180%) blur(12px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .logo .material-icons {
+      font-size: 32px;
+      color: #06b6d4;
+      animation: bounceIcon 3s infinite ease-in-out;
+    }
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    nav {
+      display: flex;
+      gap: 36px;
+    }
+    nav a {
+      position: relative;
+      font-size: 1rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a .material-icons {
+      font-size: 20px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    nav a:hover .material-icons,
+    nav a:focus .material-icons {
+      color: #06b6d4;
+      transform: scale(1.3) translateY(-4px);
+    }
+    nav a:hover,
+    nav a:focus {
+      color: #06b6d4;
+      outline: none;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #06b6d4;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+    nav a:hover::after,
+    nav a:focus::after {
+      transform: scaleX(1);
+    }
+    /* Main content styles */
+    main {
+      max-width: 960px;
+      margin: 60px auto 40px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 32px rgb(6 182 212 / 0.15);
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    h1 {
+      font-weight: 800;
+      font-size: 2rem;
+      color: #0f172a;
+      margin: 0;
+      user-select: text;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead tr {
+      background-color: #06b6d4;
+      color: white;
+      text-align: left;
+    }
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+    th {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    td img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      user-select: none;
+      pointer-events: none;
+    }
+    label.checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    #selectedTotal {
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-align: right;
+      color: #0f172a;
+      margin-top: -6px;
+      margin-bottom: 12px;
+      user-select: text;
+    }
+    /* Buy Button */
+    #btnBuyAll {
+      align-self: center;
+      background-color: #06b6d4;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 36px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      user-select: none;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    #btnBuyAll.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #btnBuyAll:hover, #btnBuyAll:focus {
+      background-color: #04a6b4;
+      box-shadow: 0 8px 20px rgba(6, 182, 212, 0.7);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .material-icons {
+      font-size: 24px;
+    }
+    /* Responsive */
+    @media (max-width: 640px) {
+      th, td {
+        padding: 8px 10px;
+      }
+      td img {
+        width: 60px;
+        height: 45px;
+      }
+      #btnBuyAll {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container" role="banner">
+      <a href="index.html" class="logo" aria-label="LindShoe homepage" tabindex="0">
+        <img src="asset/LOGO.png" alt="Logo LindShoe" style="height: 80px;"/> 
+        LindShoe
+      </a>
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="index.html" tabindex="0"><span class="material-icons" aria-hidden="true">home</span>Home</a>
+        <a href="produk.html" tabindex="0"><span class="material-icons" aria-hidden="true">local_mall</span>Produk</a>
+        <a href="keranjang.html" tabindex="0"><span class="material-icons" aria-hidden="true">shopping_cart</span>Keranjang</a>
+        <a href="kontak.html" tabindex="0"><span class="material-icons" aria-hidden="true">contact_mail</span>Kontak</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h1>Keranjang Belanja</h1>
+    <table aria-label="Daftar produk dalam keranjang">
+      <thead>
+        <tr>
+          <th>Pilih</th>
+          <th>Produk</th>
+          <th>Nama</th>
+          <th>Harga</th>
+          <th>Aksi</th> <!-- Kolom untuk tombol hapus -->
+        </tr>
+      </thead>
+      <tbody id="cartBody">
+        <!-- Isi keranjang disini -->
+      </tbody>
+    </table>
+    <div id="selectedTotal" aria-live="polite">Total Harga: Rp 0</div>
+    <button id="btnBuyAll" aria-label="Bayar produk terpilih sekarang" disabled>
+      <span class="material-icons">shopping_bag</span>
+      Beli Produk Terpilih
+    </button>
+  </main>
+
+  <script>
+    function formatPrice(price) {
+      return price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+    }
+
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('lindshoe_cart')) || [];
+      const tbody = document.getElementById('cartBody');
+      tbody.innerHTML = '';
+
+      if(cart.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="5" style="text-align:center; color:#64748b; font-weight:600;">Keranjang Anda kosong.</td>`;
+        tbody.appendChild(tr);
+        updateTotal(0);
+        toggleBuyButton(false);
+        return;
+      }
+
+      cart.forEach((product, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <label class="checkbox-label">
+              <input type="checkbox" class="product-checkbox" data-id="${product.id}" data-price="${product.price}" />
+            </label>
+          </td>
+          <td><img src="${product.img || 'https://placehold.co/80x60/06b6d4/ffffff?text=No+Image'}" alt="Gambar produk ${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/80x60/06b6d4/ffffff?text=No+Image';"></td>
+          <td>${product.name}</td>
+          <td>${formatPrice(product.price)}</td>
+          <td><button class="btnRemove" aria-label="Hapus produk dari keranjang" data-id="${product.id}">Hapus</button></td> <!-- Tombol hapus -->
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Attach event listeners
+      const checkboxes = tbody.querySelectorAll('.product-checkbox');
+      checkboxes.forEach(cb => cb.addEventListener('change', handleCheckboxChange));
+
+      // Attach event listeners for remove buttons
+      const removeButtons = tbody.querySelectorAll('.btnRemove');
+      removeButtons.forEach(btn => btn.addEventListener('click', handleRemoveProduct));
+
+      updateTotal(0);
+      toggleBuyButton(false);
+    }
+
+    function handleCheckboxChange() {
+      const checkboxes = document.querySelectorAll('.product-checkbox:checked');
+      let total = 0;
+      checkboxes.forEach(cb => {
+        total += Number(cb.dataset.price);
+      });
+      updateTotal(total);
+      toggleBuyButton(checkboxes.length > 0);
+    }
+
+    function handleRemoveProduct(event) {
+      const productId = Number(event.target.dataset.id);
+      let cart = JSON.parse(localStorage.getItem('lindshoe_cart')) || [];
+      cart = cart.filter(product => product.id !== productId);
+      localStorage.setItem('lindshoe_cart', JSON.stringify(cart));
+      loadCart(); // Reload cart after removal
+    }
+
+    function updateTotal(total) {
+      const totalEl = document.getElementById('selectedTotal');
+      totalEl.textContent = `Total Harga: ${formatPrice(total)}`;
+    }
+
+    function toggleBuyButton(enable) {
+      const btn = document.getElementById('btnBuyAll');
+      btn.disabled = !enable;
+      if(enable) {
+        btn.classList.add('enabled');
+      } else {
+        btn.classList.remove('enabled');
+      }
+    }
+
+    document.getElementById('btnBuyAll').addEventListener('click', () => {
+      const checkedBoxes = Array.from(document.querySelectorAll('.product-checkbox:checked'));
+      if(checkedBoxes.length === 0) {
+        alert('Silakan pilih produk terlebih dahulu untuk dibeli.');
+        return;
+      }
+      // Simpan id produk yang dipilih ke localStorage sebagai array
+      const selectedIds = checkedBoxes.map(cb => Number(cb.dataset.id));
+      localStorage.setItem('lindshoe_buy_products', JSON.stringify(selectedIds));
+      // Redirect ke detail.html (Anda bisa sesuaikan detail.html agar bisa proses multiple)
+      window.location.href = 'detail.html';
+    });
+
+    loadCart();
+  </script>
+</body>
+</html>
